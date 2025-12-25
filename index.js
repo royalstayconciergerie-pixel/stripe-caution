@@ -6,7 +6,7 @@ const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true })); // pour parser le formulaire
+app.use(express.urlencoded({ extended: true }));
 
 // URL complète de ton Render (https obligatoire)
 const FRONTEND_URL = "https://stripe-caution-5i5o.onrender.com";
@@ -58,6 +58,23 @@ app.post("/caution", async (req, res) => {
     console.error(err);
     res.status(500).send("Erreur : " + err.message);
   }
+});
+
+// Route success après paiement Stripe
+app.get("/success", (req, res) => {
+  res.send(`
+    <h1>Paiement réussi ! ✅</h1>
+    <p>Session ID : ${req.query.session_id}</p>
+    <p>Tu peux fermer cette page.</p>
+  `);
+});
+
+// Route cancel si le client annule
+app.get("/cancel", (req, res) => {
+  res.send(`
+    <h1>Paiement annulé ❌</h1>
+    <p>Le client a annulé le paiement.</p>
+  `);
 });
 
 app.listen(process.env.PORT || 3000, () =>
