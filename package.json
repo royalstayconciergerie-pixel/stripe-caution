@@ -1,0 +1,8 @@
+{
+  "name": "stripe-caution",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^14.0.0"
+  }
+}
