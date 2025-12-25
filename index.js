@@ -8,6 +8,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true })); // pour parser le formulaire
 
+// URL complète de ton Render (https obligatoire)
+const FRONTEND_URL = "https://stripe-caution-5i5o.onrender.com";
+
 // Formulaire simple pour tester depuis le navigateur
 app.get("/", (req, res) => {
   res.send(`
@@ -42,8 +45,8 @@ app.post("/caution", async (req, res) => {
         },
       ],
       customer_email: email,
-      success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      success_url: `${FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_URL}/cancel`,
     });
 
     // Affiche le lien directement dans le navigateur
